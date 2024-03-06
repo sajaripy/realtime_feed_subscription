@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    Home Page
+    <button type="submit">Subscribe</button>
+    <a href="{% url 'feed_subscription:logout' %}">Logout</a>
+{% endblock content %}
+    
