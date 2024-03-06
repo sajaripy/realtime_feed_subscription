@@ -7,5 +7,5 @@ class UserSubscription(models.Model):
     channel_id = models.CharField(max_length=100)
     subscribed_at = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        unique_together = ('user', 'channel_id')
+    # class Meta:
+    #     unique_together = ('user', 'channel_id')

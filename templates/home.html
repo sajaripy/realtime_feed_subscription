@@ -3,11 +3,4 @@
 {% block content %}
     Home Page
     <a href="{% url 'feed_subscription:subscribe' %}" class="">Subscribe</a>
-    <button class="btn-primary-blue btn" id="subscribe" class="">Subscribe</button>
-    <button class="btn-primary-blue btn" id="unsubscribe" class="">Unsubscribe</button>
-    <div id="live-feed-container">
-    <!-- Live feed data will be displayed here -->
-    </div>
-    {% load static %}
-    <script type="text/javascript" src="{% static 'script.js' %}"></script>
 {% endblock content %}

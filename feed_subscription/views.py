@@ -5,6 +5,9 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+# from rest_framework.decorators import throttle_classes, api_view, renderer_classes, permission_classes
+from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from django.http import HttpResponse, HttpResponseRedirect
 
 from rest_framework import viewsets
@@ -38,7 +41,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import UserSubscription
 
+
 class SubscribeChannel(APIView):
+    throttle_classes = [AnonRateThrottle, UserRateThrottle]
     def get(self, request):
         # Assuming you expect JSON data with subscription information in the request body
         # channel_id = request.data.get('channel_id')
@@ -50,7 +55,8 @@ class SubscribeChannel(APIView):
         
         subscription = UserSubscription(user=user)
         subscription.save()
-        return Response({"message": f"Subscribed to channel successfully"}, status=status.HTTP_200_OK)
+        return render(request, 'subscribe.html', {})
+        # return Response({"message": f"Subscribed to channel successfully"}, status=status.HTTP_200_OK)
 
         # Validate the channel_id and perform subscription logic
         # if channel_id:
@@ -66,7 +72,11 @@ class SubscribeChannel(APIView):
         # else:
         #     return Response({"error": "Invalid channel_id provided"}, status=status.HTTP_400_BAD_REQUEST)
 
-
+# @api_view()
+# @permission_classes([IsAuthenticated])
+# @throttle_classes([UserRateThrottle])
+# def throttle_check_auth(request):
+#     return Response({"message": "message for the logged in users only"})
 
 # Define an API view for receiving feed updates
 class FeedUpdates(APIView):
