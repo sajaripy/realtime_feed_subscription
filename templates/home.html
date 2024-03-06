@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    Home Page
-    <a href="{% url 'feed_subscription:subscribe' %}" class="">Subscribe</a>
+<div class="home-wrap">
+    <h3>Home Page</h3>
+    <div>
+        <a href="{% url 'feed_subscription:subscribe' %}" class="signup-link">Subscribe</a>
+    </div>
+    <div>
+        <a href="{% url 'feed_subscription:logout' %}" class="signup-link">logout</a>
+    </div>
+</div>
 {% endblock content %}
