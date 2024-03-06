@@ -12,15 +12,15 @@ import os
 from django.core.asgi import get_asgi_application
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
-# import chat.routing
+import feed_subscription.routing
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'realtime_feed_subscription.settings')
 
 application = ProtocolTypeRouter({
     'http': get_asgi_application(),
-    # 'websocket': AuthMiddlewareStack(
-    #     URLRouter(
-    #         chat.routing.websocket_urlpatterns
-    #     )
-    # ),
+    'websocket': AuthMiddlewareStack(
+        URLRouter(
+            feed_subscription.routing.websocket_urlpatterns
+        )
+    ),
 })

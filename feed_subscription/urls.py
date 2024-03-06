@@ -1,5 +1,5 @@
 from rest_framework.routers import DefaultRouter
-from .views import UserSubscriptionViewSet, authView, home
+from .views import UserSubscriptionViewSet, authView, home, SubscribeChannel
 from django.urls import path, include
 
 # router = DefaultRouter()
@@ -17,4 +17,5 @@ urlpatterns = [
     path('', home, name='home'),
     path("signup/", authView, name='authView'),
     path("accounts/", include("django.contrib.auth.urls")),
+    path('subscribe/', SubscribeChannel.as_view()),
 ]
