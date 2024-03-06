@@ -1,10 +1,11 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class UserSubscription(models.Model):
-    user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
-    feed_name = models.CharField(max_length=100)  # e.g., "Binance Trades"
-    subscribed = models.BooleanField(default=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    channel_id = models.CharField(max_length=100)
+    subscribed_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f"{self.user.username} - {self.feed_name}"
+    class Meta:
+        unique_together = ('user', 'channel_id')

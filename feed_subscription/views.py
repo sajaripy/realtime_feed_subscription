@@ -33,31 +33,40 @@ class UserSubscriptionViewSet(viewsets.ModelViewSet):
     serializer_class = UserSubscriptionSerializer
 
 
-# Define an API view for subscribing to channels
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .models import UserSubscription
+
 class SubscribeChannel(APIView):
-    def post(self, request):
-        channel_data = start_binance_websocket()
-        # Assuming you expect JSON data with channel information in the request body
-        # channel_data = request.data.get('channels', [])
+    def get(self, request):
+        # Assuming you expect JSON data with subscription information in the request body
+        # channel_id = request.data.get('channel_id')
+        user = request.user  # Assuming you have user authentication enabled
 
-        # Your logic to handle subscription to channels
-        # You might save the subscribed channels to the database or perform any other actions
-        # For demonstration purposes, let's assume you simply return a success message
+        # Check if the user is authenticated
+        if not user.is_authenticated:
+            return Response({"error": "User is not authenticated"}, status=status.HTTP_401_UNAUTHORIZED)
+        
+        subscription = UserSubscription(user=user)
+        subscription.save()
+        return Response({"message": f"Subscribed to channel successfully"}, status=status.HTTP_200_OK)
 
-        # Check if channel_data is not empty
-        if channel_data:
-            # Process the channels and perform subscription logic here
-            # For example, you could save the subscribed channels to the database
-            # Or interact with external APIs to manage subscriptions
-            # For demonstration, we'll just print the subscribed channels
-            print("Subscribed to channels:", channel_data)
+        # Validate the channel_id and perform subscription logic
+        # if channel_id:
+        #     # Check if the user is already subscribed to the channel
+        #     if UserSubscription.objects.filter(user=user, channel_id=channel_id).exists():
+        #         return Response({"error": "User is already subscribed to this channel"}, status=status.HTTP_400_BAD_REQUEST)
 
-            return Response({"message": "Subscribed to channels successfully"}, status=status.HTTP_200_OK)
-        else:
-            return Response({"error": "No channels provided for subscription"}, status=status.HTTP_400_BAD_REQUEST)
-        # Handle POST request to subscribe to channels
-        # Your subscription logic goes here
-        # return Response({"message": "Subscription successful"}, status=status.HTTP_200_OK)
+        #     # Create a new UserSubscription instance and save it to the database
+        #     subscription = UserSubscription(user=user, channel_id=channel_id)
+        #     subscription.save()
+
+        #     return Response({"message": f"Subscribed to channel {channel_id} successfully"}, status=status.HTTP_200_OK)
+        # else:
+        #     return Response({"error": "Invalid channel_id provided"}, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 # Define an API view for receiving feed updates
 class FeedUpdates(APIView):

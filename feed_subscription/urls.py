@@ -17,5 +17,5 @@ urlpatterns = [
     path('', home, name='home'),
     path("signup/", authView, name='authView'),
     path("accounts/", include("django.contrib.auth.urls")),
-    path('subscribe/', SubscribeChannel.as_view()),
+    path('subscribe', SubscribeChannel.as_view(), name='subscribe'),
 ]
