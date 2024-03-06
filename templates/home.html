@@ -6,8 +6,11 @@
     <div>
         <a href="{% url 'feed_subscription:subscribe' %}" class="signup-link">Subscribe</a>
     </div>
-    <div>
-        <a href="{% url 'feed_subscription:logout' %}" class="signup-link">logout</a>
+    <div class="form-wrap">
+        <form method="POST" action="{% url 'feed_subscription:logout' %}">
+            {% csrf_token %}
+            <button type="submit">logout</button>
+        </form>
     </div>
 </div>
 {% endblock content %}
