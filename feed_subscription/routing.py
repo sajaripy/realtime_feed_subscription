@@ -3,5 +3,5 @@ from . import consumers
 # from django.conf.urls import urls
 
 websocket_urlpatterns = [
-    re_path(r'wss://dstream.binance.com/stream?streams=btcusd_perp@bookTicker', consumers.FeedConsumer.as_asgi())
+    re_path(r'ws/binance/', consumers.FeedConsumer.as_asgi())
 ]

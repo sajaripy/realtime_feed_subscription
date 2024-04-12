@@ -1,0 +1,26 @@
+POST http://127.0.0.1:9001/login/ HTTP/1.1
+content-type: application/json
+
+{
+    "username": "newuser",
+    "password": "1234"
+}
+
+POST http://127.0.0.1:9001/register/ HTTP/1.1
+content-type: application/json
+
+{
+    "username": "newuser",
+    "password": "1234",
+    "password2": "1234",
+    "role": 2
+}
+
+POST http://127.0.0.1:9001/subscribe/ HTTP/1.1
+content-type: application/json
+
+{
+    "username": "newuser",
+    "password": "1234",
+    "gc_name": "binance"
+}
