@@ -31,23 +31,12 @@ class FeedConsumer(AsyncJsonWebsocketConsumer):
             await self.close()
     
     async def send_data(self, event):
-        user = self.scope["user"]
         try:
             async with websockets.connect(
                 "wss://dstream.binance.com/stream?streams=btcusd_perp@bookTicker"
             ) as ws:
                 async for data in ws:
-                    # user = self.scope["user"]
-                    self.user_role = await sync_to_async(lambda: self.scope["session"].get('role', None))()
-                    print(self.user_role)
-                    # role = await self.get_user_role(user)
-                    # self.user_role = await database_sync_to_async(lambda: self.scope.get('role', None))()
-                    if self.user_role == 1:
-                        await self.send_json({"data": data})
-                    elif self.user_role == 2:
-                        await self.send_json({"message": "connected"})
-                    else:
-                        print(self.user_role)
+                    await self.send_json({"data": data})
         except Exception as e:
             await self.send_json({"error": str(e)})
 
@@ -55,6 +44,33 @@ class FeedConsumer(AsyncJsonWebsocketConsumer):
         msg = content.get("message")
         if msg:
             self.send_json({"received_msg": msg})
+            
+    # async def send_data(self, event):
+    #     user = self.scope["user"]
+    #     try:
+    #         async with websockets.connect(
+    #             "wss://dstream.binance.com/stream?streams=btcusd_perp@bookTicker"
+    #         ) as ws:
+    #             async for data in ws:
+    #                 await self.send_json({"data": data})
+    #                 # # user = self.scope["user"]
+    #                 # self.user_role = await sync_to_async(lambda: self.scope["session"].get('role', None))()
+    #                 # print(self.user_role)
+    #                 # # role = await self.get_user_role(user)
+    #                 # # self.user_role = await database_sync_to_async(lambda: self.scope.get('role', None))()
+    #                 # if self.user_role == 1:
+    #                 #     await self.send_json({"data": data})
+    #                 # elif self.user_role == 2:
+    #                 #     await self.send_json({"message": "connected"})
+    #                 # else:
+    #                 #     print(self.user_role)
+    #     except Exception as e:
+    #         await self.send_json({"error": str(e)})
+
+    # async def receive_json(self, content, **kwargs):
+    #     msg = content.get("message")
+    #     if msg:
+    #         self.send_json({"received_msg": msg})
 
     async def disconnect(self, code):
         StopConsumer()

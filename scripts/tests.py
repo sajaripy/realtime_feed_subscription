@@ -30,6 +30,13 @@ def postSubscribe(username, password, gc_name):
     result = json.loads(response.text)
     return result
 
+# def Socket(token):
+#     myobj = {"authorization": "Bearer "+token}
+#     queryURL = "ws://127.0.0.1:8000/ws/binance/"
+#     response = requests.post(queryURL, json = myobj)
+#     result = json.loads(response.text)
+#     return result
+
 if __name__ == '__main__':
     method = int(input("Please enter if you want to register(1), login(2) or subscibe(3) in int:"))
     if method == 1:
@@ -47,6 +54,9 @@ if __name__ == '__main__':
         password = input("Enter password:")
         gc_name = input("Enter gc name:")
         print(postSubscribe(username, password, gc_name))
+    # elif method == 4:
+    #     token = input("Enter token:")
+    #     print(Socket(token))
     else:
         print("wrong input")
     
